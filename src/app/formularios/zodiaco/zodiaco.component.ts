@@ -30,7 +30,7 @@ export class ZodiacoComponent {
   ];
 
   constructor(private fb: FormBuilder) {
-    // Inicialización del formulario reactivo
+    
     this.formulario = this.fb.group({
       nombre: ['', Validators.required],
       apaterno: ['', Validators.required],
