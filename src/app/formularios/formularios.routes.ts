@@ -14,6 +14,18 @@ export default[
 
 
     },
+    {
+        path: 'empleado',
+        loadComponent:()=>import('./empleado/empleado.component'),
+
+
+    },
+    {
+        path: 'resistencias',
+        loadComponent:()=>import('./resistencias/resistencias.component'),
+
+
+    },
  
     
    

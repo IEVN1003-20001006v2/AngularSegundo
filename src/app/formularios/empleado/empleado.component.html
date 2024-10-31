@@ -1,0 +1,93 @@
+<div class="max-w-lg mx-auto p-4">
+  <!-- Formulario para registrar o modificar empleado -->
+  <form [formGroup]="formGroup" (ngSubmit)="registrarEmpleado()" class="space-y-6 p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-xl font-bold mb-4">{{ matriculaParaModificar ? 'Modificar Empleado' : 'Registrar Empleado' }}</h2>
+
+    <label class="block">
+      Matrícula:
+      <input type="text" formControlName="matricula" class="w-full mt-1 p-2 border rounded-md" />
+    </label>
+
+    <label class="block">
+      Nombre:
+      <input type="text" formControlName="nombre" class="w-full mt-1 p-2 border rounded-md" />
+    </label>
+
+    <label class="block">
+      Correo:
+      <input type="email" formControlName="correo" class="w-full mt-1 p-2 border rounded-md" />
+    </label>
+
+    <label class="block">
+      Edad:
+      <input type="number" formControlName="edad" class="w-full mt-1 p-2 border rounded-md" />
+    </label>
+
+    <label class="block">
+      Horas trabajadas:
+      <input type="number" formControlName="horasTrabajadas" class="w-full mt-1 p-2 border rounded-md" />
+    </label>
+
+    <button type="submit" class="w-full text-white bg-indigo-600 hover:bg-indigo-700 font-medium rounded-lg text-sm px-5 py-3 mt-4">
+      {{ matriculaParaModificar ? 'Modificar' : 'Registrar' }}
+    </button>
+  </form>
+
+  <!-- Botón para mostrar la tabla de empleados -->
+  <button (click)="imprimirTabla()" class="w-full mt-6 text-white bg-green-600 hover:bg-green-700 font-medium rounded-lg text-sm px-5 py-3">
+    Imprimir tabla
+  </button>
+
+  <!-- Botón para activar el buscador -->
+  <button (click)="activarBuscador()" class="w-full mt-2 text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-3">
+    Modificar
+  </button>
+
+  <!-- Tabla de empleados -->
+  <table *ngIf="mostrarTabla && empleados.length > 0" class="min-w-full mt-6 bg-white border border-gray-200 text-left text-sm text-gray-500 shadow-lg rounded-lg">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3">Matrícula</th>
+        <th class="px-6 py-3">Nombre</th>
+        <th class="px-6 py-3">Correo</th>
+        <th class="px-6 py-3">Edad</th>
+        <th class="px-6 py-3">Horas trabajadas</th>
+        <th class="px-6 py-3">Total a pagar (hasta 40 horas)</th> <!-- Cambiado -->
+        <th class="px-6 py-3">Total a pagar (horas extras)</th> <!-- Cambiado -->
+        <th class="px-6 py-3">SubTotal</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <tr *ngFor="let empleado of empleados" class="hover:bg-gray-100">
+        <td class="px-6 py-4">{{ empleado.matricula }}</td>
+        <td class="px-6 py-4">{{ empleado.nombre }}</td>
+        <td class="px-6 py-4">{{ empleado.correo }}</td>
+        <td class="px-6 py-4">{{ empleado.edad }}</td>
+        <td class="px-6 py-4">{{ empleado.horasTrabajadas }}</td>
+        <td class="px-6 py-4">{{ empleado.horasPagar | currency }}</td> <!-- Muestra total en pesos -->
+        <td class="px-6 py-4">{{ empleado.horasExtras | currency }}</td> <!-- Muestra total en pesos -->
+        <td class="px-6 py-4">{{ empleado.subTotal | currency }}</td>
+      </tr>
+    </tbody>
+    <tfoot *ngIf="empleados.length > 0" class="bg-gray-50">
+      <tr>
+        <td colspan="7" class="px-6 py-3 font-bold text-right">Total de Subtotales:</td>
+        <td class="px-6 py-3 font-bold">{{ calcularTotalSubtotales() | currency }}</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- Buscador para modificar o eliminar empleado -->
+  <div *ngIf="mostrarBuscador" class="mt-4">
+    <label class="block">
+      Buscar por Matrícula:
+      <input type="text" [(ngModel)]="matriculaBusqueda" class="w-full mt-1 p-2 border rounded-md" />
+    </label>
+    <button (click)="buscarParaModificar()" class="mt-2 w-full text-white bg-yellow-600 hover:bg-yellow-700 font-medium rounded-lg text-sm px-5 py-3">
+      Buscar
+    </button>
+    <button (click)="buscarYEliminar()" class="mt-2 w-full text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-3">
+      Eliminar
+    </button>
+  </div>
+</div>
